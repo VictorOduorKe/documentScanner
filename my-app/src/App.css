@@ -34,7 +34,7 @@ body{
   flex-direction: column;
   text-align: left;
 }
-.input-field input{
+.input-field input,select{
   padding:10px;
   border: 0;
   outline: none;
@@ -44,7 +44,6 @@ body{
 form button{
   padding: 10px;
   width: 70%;
-  margin: 15px;
   border-radius: 10px;
   outline:none;
   border: 0;
@@ -53,6 +52,7 @@ form button{
   text-transform: uppercase;
   font-weight: bolder;
   transition: all 0.5s ease-in-out;
+  margin: 10px 40px;
 }
 form button:hover{
   background: #09122C;
