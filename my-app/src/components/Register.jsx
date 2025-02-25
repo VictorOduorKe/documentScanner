@@ -10,6 +10,7 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState("");
   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;"'<>,.?/\\|-]).{8,}$/;
   const[formErrors,setFormErrors]=useState("");
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
