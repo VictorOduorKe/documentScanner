@@ -1,0 +1,87 @@
+
+*{
+  padding:0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body{
+  background:linear-gradient(to right,#41644A,#0D4715);
+  font-family:Poppins, Helvetica, sans-serif;
+  width: 100%;
+}
+.app{
+  width: 100%;
+}
+.login-page{
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.login-page form{
+  box-shadow: 0px 0px 5px #F1F0E9;
+  width: 400px;
+  padding:20px;
+  border-radius: 10px;
+}
+
+.input-field{
+  display: flex;
+  justify-content: center;
+  gap:10px;
+  flex-direction: column;
+  text-align: left;
+}
+.input-field input{
+  padding:10px;
+  border: 0;
+  outline: none;
+  margin:10px 0px;
+}
+
+form button{
+  padding: 10px;
+  width: 70%;
+  margin: 15px;
+  border-radius: 10px;
+  outline:none;
+  border: 0;
+  cursor: pointer;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bolder;
+  transition: all 0.5s ease-in-out;
+}
+form button:hover{
+  background: #09122C;
+  color: white;
+}
+
+form p{
+  color:#D4BEE4 ;
+}
+form p .link{
+  color:blue;
+  text-decoration: none;
+  padding-left: 10px;
+}
+
+form p .link:hover{
+  text-decoration: underline;
+  color:#D4BEE4 ;
+}
+
+form .input-field select{
+padding:10px;
+}
+
+form h1{
+  color:#ffff;
+  text-transform: uppercase;
+}
+
+.home{
+  width: 100%;
+}
