@@ -6,7 +6,7 @@ import "../App.css";
 
 
 const Login = () => {
-    const [loginUsername,setLoginUsername]=useState("")
+const [loginUsername,setLoginUsername]=useState("")
 const [loginPasword,setLoginPassword]=useState("");
 const [loginErrors,setLoginErrors]=useState("");
 const [isInputmpty,setIsInputEmpty]=useState(true);
@@ -16,11 +16,13 @@ const [isInputmpty,setIsInputEmpty]=useState(true);
              setIsInputEmpty(false);
               setLoginErrors("Kindly fill all fields");
               setTimeout(() => {
+                setIsInputEmpty(true)
                 setLoginErrors("")
               }, 6000);
         }else if(setIsInputEmpty){
             setLoginErrors("Registered Sucesfully")
              setTimeout(()=>{
+                setIsInputEmpty(true)
                  setLoginErrors("")
              },6000)
         }else{

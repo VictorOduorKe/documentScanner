@@ -1,75 +1,105 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom"; 
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../App.css";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("student");
-  const [role, setRole] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [passwordError, setPasswordError] = useState("");
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;"'<>,.?/\\|-]).{8,}$/;
-  const[formErrors,setFormErrors]=useState("");
-  
+  const [formErrors, setFormErrors] = useState("");
 
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({
+    username: "",
+    role: "student",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;"'<>,.?/\\|-]).{8,}$/;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username.trim() === "" || password.trim() === "") {
+
+    if (formData.username.trim() === "" || formData.password.trim() === "") {
       setIsValid(false);
       setFormErrors("Please fill all fields");
-      setTimeout(()=>{
-         setFormErrors("")
-      },6000)
+      setTimeout(() => setFormErrors(""), 6000);
       return;
     }
 
-    if (!regex.test(password)) {
-      setPasswordError("Password must include uppercase, lowercase, special characters, and be at least 8 characters long.");
-      setTimeout(() => {
-       setPasswordError("")
-      }, 6000);
+    if (!regex.test(formData.password)) {
+      setPasswordError(
+        "Password must include uppercase, lowercase, special characters, and be at least 8 characters long."
+      );
+      setTimeout(() => setPasswordError(""), 6000);
       return;
-    } else {
-      setPasswordError("");
-      setIsValid(true);
     }
 
-    setFormErrors("Registered Sucessfully");
-    setTimeout(()=>{
-      setFormErrors("")
-      setPassword("")
-      setRole("")
-      setUsername("")
-      setPasswordError("")
-    },6000)
+    try {
+      const response = await fetch(
+        "http://localhost/dashboard/scannerBackend/register.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Ensures session handling
+          body: JSON.stringify(formData),
+        }
+      );
 
+      const data = await response.json();
 
-   
+      if (response.ok) {
+        setPasswordError("");
+        setIsValid(true);
+        setFormErrors(data.message || "Registered Successfully!");
+
+        setTimeout(() => {
+          setFormErrors("");
+          setFormData({
+            username: "",
+            role: "student",
+            password: "",
+          });
+        }, 6000);
+      } else {
+        setIsValid(false);
+        setFormErrors(data.message || "Registration failed. Try again.");
+      }
+    } catch (error) {
+      setIsValid(false);
+      setFormErrors("Error connecting to the server. Please try again.");
+    }
   };
 
   return (
     <div className="login-page">
       <form onSubmit={handleSubmit}>
         <h1>Register Here</h1>
-        
+
         <div className="input-field">
           <label htmlFor="username">Username</label>
-          <input 
-            type="text" 
-            placeholder="Enter username" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
+          <input
+            type="text"
+            name="username"
+            placeholder="Enter username"
+            value={formData.username}
+            onChange={handleChange}
             id="username"
           />
         </div>
 
         <div className="input-field">
           <label htmlFor="role">Choose Role</label>
-          <select 
-            name="role" 
+          <select
+            name="role"
             id="role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
+            value={formData.role}
+            onChange={handleChange}
           >
             <option value="student">Student</option>
             <option value="lecturer">Lecturer</option>
@@ -78,21 +108,27 @@ const Register = () => {
 
         <div className="input-field">
           <label htmlFor="password">Password</label>
-          <input 
-            type="password" 
-            placeholder="Enter password" 
-            id="password" 
-            onChange={(e) => setPassword(e.target.value)}
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            id="password"
+            value={formData.password}
+            onChange={handleChange}
           />
-          {passwordError && <p style={{ color: "red" }}>{passwordError}</p>} 
+          {passwordError && <p style={{ color: "red", fontSize: "14px" }}>{passwordError}</p>}
         </div>
 
-        {!isValid && <p style={{ color: "red" }}>{formErrors}</p>} 
+        {formErrors && <p style={{ color: isValid ? "green" : "red" }}>{formErrors}</p>}
 
         <button type="submit">Register</button>
-        {isValid &&<p style={{color:"green",background:"white",borderRadius:"10px",textAlign:"center"}}>{formErrors}</p>}
-        
-        <p>Already have an account? Login <Link to="/login" className="link">Here</Link></p>
+
+        <p>
+          Already have an account? Login{" "}
+          <Link to="/login" className="link">
+            Here
+          </Link>
+        </p>
       </form>
     </div>
   );
