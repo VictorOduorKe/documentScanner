@@ -46,7 +46,7 @@ const Register = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // Ensures session handling
+          credentials: "include", 
           body: JSON.stringify(formData),
         }
       );
@@ -72,7 +72,7 @@ const Register = () => {
       }
     } catch (error) {
       setIsValid(false);
-      setFormErrors("Error connecting to the server. Please try again.");
+      setFormErrors(`Error connecting to the server. Please try again. `+error);
     }
   };
 
